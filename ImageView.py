@@ -10,18 +10,31 @@ sg.theme("TealMono")
 title = "Image View"
 
 # Layout of the window
-layout = [
+# Item Selector Column
+itemSelectorColumn = [
     [
+        # Texto before the selector
         sg.Text("Image Folder:"),
+        # Bar with the folder route
         sg.Input(size=(30, 1), background_color="white",
-                 enable_events=True, key="-FOLDER-"),
+                 enable_events=True, key="-FOLDER-", disabled=True),
+        # File Selector
         sg.FolderBrowse()
     ],
     [
+        # Image Selector
         sg.Listbox(
             values=[], enable_events=True, size=(40, 20), key="-FILE LIST-"
         )
     ],
+
+]
+
+layout = [
+    [sg.Column(itemSelectorColumn),
+     sg.VSeparator(),
+     ]
+
 ]
 
 # window
