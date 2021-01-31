@@ -4,7 +4,6 @@
 import PySimpleGUI as sg
 import os.path
 
-sg.theme("TealMono")
 
 # Title of the window
 title = "Image View"
@@ -16,7 +15,7 @@ itemSelectorColumn = [
         # Texto before the selector
         sg.Text("Image Folder:"),
         # Bar with the folder route
-        sg.Input(size=(30, 1), background_color="white",
+        sg.Input(default_text=("C:/Users/rafam/Pictures"), size=(60, 1), background_color="white",
                  enable_events=True, key="-FOLDER-", disabled=True),
         # File Selector
         sg.FolderBrowse()
@@ -24,7 +23,7 @@ itemSelectorColumn = [
     [
         # Image Selector
         sg.Listbox(
-            values=[], enable_events=True, size=(40, 20), key="-FILE LIST-"
+            values=[], enable_events=True, size=(80, 20), key="-FILE LIST-",
         )
     ],
 
@@ -33,11 +32,18 @@ itemSelectorColumn = [
 # image visualizer
 imageViewerColumn = [
     [sg.Text("Choose an image from list on left")],
-    [sg.Text(size=(40, 1), key="-TOUT-")],
-    [sg.Image(k="-IMAGE")]
+    [sg.Text(size=(100, 1), key="-TOUT-")],
+    [sg.Image(k="-IMAGE", size=(200, 200))]
 ]
 
+# MenuBar
+menu_def = [['&File', ['!&Open', '&Save::savekey', '---', '&Exit::exit']],
+            ['&Help', '&About...'], ]
+
 layout = [
+    [
+        sg.MenuBar(menu_def)
+    ],
     [sg.Column(itemSelectorColumn),
      sg.VSeparator(),
      sg.Column(imageViewerColumn)
@@ -45,14 +51,15 @@ layout = [
 
 ]
 
+
 # window
 window = sg.Window(title=title, layout=layout,
-                   size=(1000, 1000))
+                   size=(1920, 1080), resizable=True, ttk_theme="winnative", location=(0, 0))
 
 while True:
     event, values = window.read()
     # Close the window
-    if event == sg.WIN_CLOSED:
+    if event == sg.WIN_CLOSED or event == 'Exit':
         break
     # Event of the input
     if event == "-FOLDER-":
